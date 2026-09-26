@@ -38,7 +38,7 @@ export default function Home() {
       {loading ? (
         <div className="mx-auto max-w-6xl px-4 py-16 text-center">
           <p className="text-sm text-zinc-500">
-            Loading workouts...
+            Loading workouts…
           </p>
         </div>
       ) : (

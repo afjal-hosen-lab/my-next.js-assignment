@@ -9,7 +9,7 @@ export default function Navbar() {
     const [savedCount, setSavedCount] = useState(0);
 
     useEffect(() => {
-   function updateCounts() {
+    function updateCounts() {
     const plan = JSON.parse(
       localStorage.getItem("fitlog-plan") || "[]"
     );

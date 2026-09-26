@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { toast } from "react-toastify";
 
 export default function WorkoutActions({ workout }) {
     const [added, setAdded] = useState(false);
@@ -15,7 +16,9 @@ export default function WorkoutActions({ workout }) {
         (item) => item.id === workout.id
     );
 
-    if (!alreadyAdded) {
+    if (alreadyAdded) {
+        toast.info("Workout is already in your plan.");
+    } else {
         const updatedPlan = [...existingPlan, workout];
 
         localStorage.setItem(
@@ -23,7 +26,11 @@ export default function WorkoutActions({ workout }) {
         JSON.stringify(updatedPlan)
         );
 
-        window.dispatchEvent(new Event("fitlog-plan-updated"));
+        window.dispatchEvent(
+        new Event("fitlog-plan-updated")
+        );
+
+        toast.success("Workout added to today's plan!");
     }
 
     setAdded(true);
@@ -38,7 +45,9 @@ export default function WorkoutActions({ workout }) {
         (item) => item.id === workout.id
     );
 
-    if (!alreadySaved) {
+    if (alreadySaved) {
+        toast.info("Workout is already saved.");
+    } else {
         const updatedSaved = [...existingSaved, workout];
 
         localStorage.setItem(
@@ -46,7 +55,11 @@ export default function WorkoutActions({ workout }) {
         JSON.stringify(updatedSaved)
         );
 
-        window.dispatchEvent(new Event("fitlog-saved-updated"));
+        window.dispatchEvent(
+        new Event("fitlog-saved-updated")
+        );
+
+        toast.success("Workout saved for later!");
     }
 
     setSaved(true);
@@ -58,7 +71,9 @@ export default function WorkoutActions({ workout }) {
         onClick={addToPlan}
         className="rounded-lg bg-[#ccff00] px-4 py-3 text-[10px] font-black uppercase text-black transition hover:bg-[#b8e600]"
         >
-        {added ? "Added to today's plan" : "Add to today's plan"}
+        {added
+            ? "Added to today's plan"
+            : "Add to today's plan"}
         </button>
 
         <button
