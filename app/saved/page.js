@@ -35,7 +35,6 @@ export default function SavedPage() {
     <main className="min-h-screen bg-[#0d0f12] px-4 py-8 text-white sm:px-6 lg:px-8">
       <div className="mx-auto max-w-5xl">
 
-        {/* Back to Library */}
         <Link
           href="/"
           className="text-xs font-bold uppercase tracking-wide text-zinc-500 transition hover:text-[#ccff00]"
@@ -43,7 +42,6 @@ export default function SavedPage() {
           ← Back to Library
         </Link>
 
-        {/* Page Heading */}
         <div className="mt-8">
           <h1 className="text-3xl font-black uppercase sm:text-4xl">
             Saved Workouts
@@ -54,7 +52,6 @@ export default function SavedPage() {
           </p>
         </div>
 
-        {/* Saved Count */}
         <div className="mt-8 rounded-xl border border-zinc-800 bg-[#111318] p-5">
           <p className="text-[9px] font-bold uppercase tracking-wider text-zinc-500">
             Saved Workouts
@@ -65,7 +62,6 @@ export default function SavedPage() {
           </p>
         </div>
 
-        {/* Saved Workout List */}
         <div className="mt-8">
 
           {savedWorkouts.length === 0 ? (
@@ -96,14 +92,12 @@ export default function SavedPage() {
                   className="flex flex-col gap-4 rounded-xl border border-zinc-800 bg-[#111318] p-4 transition hover:border-zinc-700 sm:flex-row sm:items-center"
                 >
 
-                  {/* Workout Image */}
                   <img
                     src={workout.image}
                     alt={workout.name}
                     className="h-24 w-full rounded-lg object-cover sm:w-36"
                   />
 
-                  {/* Workout Information */}
                   <div className="flex-1">
 
                     <h2 className="text-sm font-black uppercase text-white">
@@ -131,7 +125,6 @@ export default function SavedPage() {
                     </div>
                   </div>
 
-                  {/* Actions */}
                   <div className="flex gap-2">
 
                     <Link

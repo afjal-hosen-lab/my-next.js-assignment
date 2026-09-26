@@ -21,14 +21,12 @@ export default function MyPlanPage() {
   const [done, setDone] = useState([]);
   const [sort, setSort] = useState("duration");
 
-  // URL tab change
   useEffect(() => {
     setTab(
       searchParams.get("tab") === "saved" ? "saved" : "plan"
     );
   }, [searchParams]);
 
-  // Load localStorage data
   function loadData() {
     setPlan(
       JSON.parse(localStorage.getItem("fitlog-plan") || "[]")
@@ -64,7 +62,6 @@ export default function MyPlanPage() {
 
   const workouts = tab === "plan" ? plan : saved;
 
-  // Sorting
   const sorted = useMemo(() => {
     return [...workouts].sort((a, b) => {
       if (sort === "duration") {
@@ -158,11 +155,9 @@ export default function MyPlanPage() {
 
       <Navbar />
 
-      {/* Main Content */}
       <div className="flex-1 px-4 py-8">
         <div className="mx-auto max-w-5xl">
 
-          {/* Back */}
           <Link
             href="/"
             className="text-xs font-bold uppercase text-zinc-500 transition hover:text-[#ccff00]"
@@ -170,7 +165,6 @@ export default function MyPlanPage() {
             ← Back to Workouts
           </Link>
 
-          {/* Header */}
           <h1 className="mt-6 text-3xl font-black uppercase tracking-wide">
             My Plan
           </h1>
@@ -181,7 +175,6 @@ export default function MyPlanPage() {
               : "Your saved workouts for later."}
           </p>
 
-          {/* Stats */}
           <div className="mt-8 grid grid-cols-3 gap-3">
             {[
               ["Exercises", workouts.length],
@@ -203,10 +196,8 @@ export default function MyPlanPage() {
             ))}
           </div>
 
-          {/* Tabs + Sort */}
           <div className="mt-8 flex flex-wrap items-center justify-between gap-4 border-b border-zinc-800/80 pb-4">
 
-            {/* Tabs */}
             <div className="flex gap-1 rounded-xl bg-[#111318] p-1">
 
               <button
@@ -233,7 +224,6 @@ export default function MyPlanPage() {
 
             </div>
 
-            {/* Sort */}
             <div className="flex items-center gap-2">
               <span className="text-xs text-zinc-500">
                 Sort by
@@ -260,7 +250,6 @@ export default function MyPlanPage() {
 
           </div>
 
-          {/* Workout Cards */}
           <div className="mt-6 space-y-4">
 
             {sorted.length === 0 ? (
@@ -296,7 +285,6 @@ export default function MyPlanPage() {
         </div>
       </div>
 
-      {/* Footer */}
       <Footer />
 
     </main>

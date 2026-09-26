@@ -36,10 +36,8 @@ export default function Home() {
       <Hero />
 
       {loading ? (
-        <div className="mx-auto max-w-6xl px-4 py-16 text-center">
-          <p className="text-sm text-zinc-500">
-            Loading workouts…
-          </p>
+        <div className="flex justify-center py-20">
+          <div className="h-10 w-10 animate-spin rounded-full border-4 border-zinc-700 border-t-[#ccff00]" />
         </div>
       ) : (
         <Library workouts={workouts} />

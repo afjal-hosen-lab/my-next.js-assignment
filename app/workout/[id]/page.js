@@ -87,11 +87,9 @@ export default async function WorkoutDetails({ params }) {
     <main className="min-h-screen bg-[#0d0f12] text-white">
       <Navbar />
 
-      {/* Workout Details */}
       <section className="px-4 py-8 sm:px-6 sm:py-10 lg:px-8">
         <div className="mx-auto grid w-full max-w-5xl items-start gap-8 lg:grid-cols-2">
 
-          {/* Left Side: Image */}
           <div className="relative aspect-square w-full overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-900">
             <Image
               src={workout.image}
@@ -102,7 +100,6 @@ export default async function WorkoutDetails({ params }) {
             />
           </div>
 
-          {/* Right Side: Details */}
           <div className="flex flex-col">
 
             <h1 className="text-3xl font-extrabold uppercase tracking-wide text-white sm:text-4xl">
@@ -113,7 +110,6 @@ export default async function WorkoutDetails({ params }) {
               {workout.description}
             </p>
 
-            {/* Muscle Groups */}
             <div className="mt-4 flex flex-wrap gap-2">
               {workout.muscleGroups.map((muscle) => (
                 <span
@@ -125,7 +121,6 @@ export default async function WorkoutDetails({ params }) {
               ))}
             </div>
 
-            {/* Stats */}
             <div className="mt-6 divide-y divide-zinc-800/60 rounded-xl border border-zinc-800/80 bg-[#13161c] px-4 py-2">
               {stats.map((stat) => (
                 <div
@@ -143,7 +138,6 @@ export default async function WorkoutDetails({ params }) {
               ))}
             </div>
 
-            {/* Instructions */}
             <div className="mt-6">
               <h2 className="text-xs font-bold uppercase tracking-wider text-zinc-300">
                 Instructions
@@ -167,8 +161,6 @@ export default async function WorkoutDetails({ params }) {
               </ol>
             </div>
 
-            {/* Actions */}
-            {/* Actions */}
             <div className="mt-8">
                 <WorkoutActions workout={workout} />
             </div>

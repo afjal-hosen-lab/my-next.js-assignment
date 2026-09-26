@@ -11,9 +11,9 @@ export default function PlanWorkoutCard({
 }) {
   return (
     <div className="flex flex-col sm:flex-row sm:items-center justify-between rounded-xl border border-zinc-800/80 bg-[#111318] p-4 transition-all hover:border-zinc-700/80 gap-4">
-      {/* Left side: Image & Workout Details */}
+
       <div className="flex items-center gap-4">
-        {/* Image Container */}
+
         <div className="relative h-20 w-32 shrink-0 overflow-hidden rounded-lg bg-zinc-800">
           <img
             src={workout.image || "/placeholder.jpg"}
@@ -24,7 +24,6 @@ export default function PlanWorkoutCard({
           />
         </div>
 
-        {/* Info */}
         <div>
           <h3
             className={`text-base font-black uppercase tracking-wide ${
@@ -38,7 +37,6 @@ export default function PlanWorkoutCard({
             {workout.equipment || workout.category || "Bodyweight"}
           </p>
 
-          {/* Meta Info (Duration, Calories, Rating) */}
           <div className="mt-2 flex items-center gap-4 text-xs font-medium text-zinc-400">
             <span className="flex items-center gap-1">
               <svg
@@ -94,7 +92,6 @@ export default function PlanWorkoutCard({
         </div>
       </div>
 
-      {/* Right side: Action Buttons */}
       <div className="flex items-center gap-2 self-end sm:self-center">
         {/* View Details Button */}
         <Link
@@ -104,7 +101,6 @@ export default function PlanWorkoutCard({
           View Details
         </Link>
 
-        {/* Mark as Done / Completed Button */}
         {showDone && (
           <button
             onClick={() => onDone(workout.id)}
@@ -132,7 +128,6 @@ export default function PlanWorkoutCard({
           </button>
         )}
 
-        {/* Trash Icon Button */}
         <button
           onClick={() => onRemove(workout.id)}
           className="flex h-9 w-9 items-center justify-center rounded-lg border border-zinc-800 bg-[#161920] text-zinc-400 transition hover:border-red-500/50 hover:bg-red-500/10 hover:text-red-500"

@@ -14,7 +14,7 @@ export default function Hero() {
 
   return (
     <section className="px-4 pt-8">
-      <div className="relative mx-auto flex min-h-[300px] max-w-6xl items-center overflow-hidden rounded-xl border border-zinc-800 bg-[#111318]">
+      <div className="relative mx-auto flex min-h-300px max-w-6xl items-center overflow-hidden rounded-xl border border-zinc-800 bg-[#111318]">
 
         <div className="relative z-10 w-full max-w-xl px-6 py-10 sm:px-10">
           <p className="mb-3 text-xs font-bold uppercase tracking-widest text-[#ccff00]">

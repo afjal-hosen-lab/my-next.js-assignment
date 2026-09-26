@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 export default function Navbar() {
   const [planCount, setPlanCount] = useState(0);
   const [savedCount, setSavedCount] = useState(0);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   function loadCounts() {
     const plan = JSON.parse(
@@ -28,73 +29,123 @@ export default function Navbar() {
     window.addEventListener("fitlog-saved-updated", loadCounts);
 
     return () => {
-      window.removeEventListener(
-        "fitlog-plan-updated",
-        loadCounts
-      );
-
-      window.removeEventListener(
-        "fitlog-saved-updated",
-        loadCounts
-      );
+      window.removeEventListener("fitlog-plan-updated", loadCounts);
+      window.removeEventListener("fitlog-saved-updated", loadCounts);
     };
   }, []);
 
   return (
     <header className="border-b border-zinc-800 bg-[#0b0c10]">
-      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4">
+      <div className="mx-auto max-w-6xl px-4">
 
-        {/* Logo */}
-        <Link href="/" className="flex items-center gap-2">
-          <Image
-            src="/assets/logo.png"
-            alt="FitLog logo"
-            width={26}
-            height={26}
-          />
+        <div className="flex h-16 items-center justify-between">
 
-          <span className="text-lg font-black uppercase text-white">
-            FitLog
-          </span>
-        </Link>
+          <Link href="/" className="flex items-center gap-2">
+            <Image
+              src="/assets/logo.png"
+              alt="FitLog logo"
+              width={26}
+              height={26}
+            />
 
-        {/* Navigation */}
-        <nav className="hidden items-center gap-10 text-xs font-bold uppercase md:flex">
-          <Link
-            href="/"
-            className="text-[#ccff00] transition hover:text-white"
-          >
-            Workouts
+            <span className="text-lg font-black uppercase text-white">
+              FitLog
+            </span>
           </Link>
 
-          <Link
-            href="/my-plan?tab=plan"
-            className="text-zinc-500 transition hover:text-white"
-          >
-            My Plan
-          </Link>
-        </nav>
+          <nav className="hidden items-center gap-10 text-xs font-bold uppercase md:flex">
+            <Link
+              href="/"
+              className="text-[#ccff00] transition hover:text-white"
+            >
+              Workouts
+            </Link>
 
-        {/* Counters */}
-        <div className="flex items-center gap-2">
+            <Link
+              href="/my-plan"
+              className="text-zinc-500 transition hover:text-white"
+            >
+              My Plan
+            </Link>
+          </nav>
 
-          {/* Plan */}
-          <Link
-            href="/my-plan?tab=plan"
-            className="rounded-full bg-[#ccff00] px-3 py-1.5 text-[10px] font-black uppercase text-black transition hover:bg-white"
-          >
-            Plan {planCount}
-          </Link>
+          <div className="hidden items-center gap-2 md:flex">
+            <Link
+              href="/my-plan"
+              className="rounded-full bg-[#ccff00] px-3 py-1.5 text-[10px] font-black uppercase text-black"
+            >
+              Plan {planCount}
+            </Link>
 
-          {/* Saved */}
-          <Link
-            href="/my-plan?tab=saved"
-            className="rounded-full border border-zinc-700 px-3 py-1.5 text-[10px] font-black uppercase text-zinc-300 transition hover:border-[#ccff00] hover:text-[#ccff00]"
+            <Link
+              href="/my-plan?tab=saved"
+              className="rounded-full border border-zinc-700 px-3 py-1.5 text-[10px] font-black uppercase text-zinc-300"
+            >
+              Saved {savedCount}
+            </Link>
+          </div>
+
+          <button
+            onClick={() => setMenuOpen(!menuOpen)}
+            className="flex flex-col gap-1.5 rounded-lg border border-zinc-800 p-2 md:hidden"
+            aria-label="Toggle menu"
           >
-            Saved {savedCount}
-          </Link>
+            <span className="h-0.5 w-5 bg-white"></span>
+            <span className="h-0.5 w-5 bg-white"></span>
+            <span className="h-0.5 w-5 bg-white"></span>
+          </button>
 
         </div>
+
+        {menuOpen && (
+          <div className="border-t border-zinc-800 py-4 md:hidden">
+
+            <div className="flex flex-col gap-2">
+
+              <Link
+                href="/"
+                onClick={() => setMenuOpen(false)}
+                className="rounded-lg px-3 py-3 text-xs font-bold uppercase text-zinc-300 hover:bg-[#111318] hover:text-[#ccff00]"
+              >
+                Workouts
+              </Link>
+
+              <Link
+                href="/my-plan"
+                onClick={() => setMenuOpen(false)}
+                className="rounded-lg px-3 py-3 text-xs font-bold uppercase text-zinc-300 hover:bg-[#111318] hover:text-[#ccff00]"
+              >
+                My Plan
+              </Link>
+
+              <Link
+                href="/my-plan"
+                onClick={() => setMenuOpen(false)}
+                className="flex items-center justify-between rounded-lg px-3 py-3 text-xs font-bold uppercase text-zinc-300 hover:bg-[#111318] hover:text-[#ccff00]"
+              >
+                <span>Today's Plan</span>
+
+                <span className="rounded-full bg-[#ccff00] px-2 py-1 text-[9px] font-black text-black">
+                  {planCount}
+                </span>
+              </Link>
+
+              <Link
+                href="/my-plan?tab=saved"
+                onClick={() => setMenuOpen(false)}
+                className="flex items-center justify-between rounded-lg px-3 py-3 text-xs font-bold uppercase text-zinc-300 hover:bg-[#111318] hover:text-[#ccff00]"
+              >
+                <span>Saved</span>
+
+                <span className="rounded-full border border-zinc-700 px-2 py-1 text-[9px] font-black text-zinc-300">
+                  {savedCount}
+                </span>
+              </Link>
+
+            </div>
+          </div>
+        )}
+
       </div>
     </header>
   );

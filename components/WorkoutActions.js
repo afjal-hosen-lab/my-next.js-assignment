@@ -1,87 +1,123 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
 export default function WorkoutActions({ workout }) {
-    const [added, setAdded] = useState(false);
-    const [saved, setSaved] = useState(false);
+  const [added, setAdded] = useState(false);
+  const [saved, setSaved] = useState(false);
 
-    function addToPlan() {
+  // Page load হলে existing status check
+  useEffect(() => {
     const existingPlan = JSON.parse(
-        localStorage.getItem("fitlog-plan") || "[]"
+      localStorage.getItem("fitlog-plan") || "[]"
     );
 
-    const alreadyAdded = existingPlan.some(
-        (item) => item.id === workout.id
+    const existingSaved = JSON.parse(
+      localStorage.getItem("fitlog-saved") || "[]"
     );
 
-    if (alreadyAdded) {
-        toast.info("Workout is already in your plan.");
-    } else {
-        const updatedPlan = [...existingPlan, workout];
+    setAdded(
+      existingPlan.some((item) => item.id === workout.id)
+    );
 
-        localStorage.setItem(
-        "fitlog-plan",
-        JSON.stringify(updatedPlan)
-        );
+    setSaved(
+      existingSaved.some((item) => item.id === workout.id)
+    );
+  }, [workout.id]);
 
-        window.dispatchEvent(
-        new Event("fitlog-plan-updated")
-        );
+  function addToPlan() {
+    const existingPlan = JSON.parse(
+      localStorage.getItem("fitlog-plan") || "[]"
+    );
 
-        toast.success("Workout added to today's plan!");
+    // Already added check
+    if (existingPlan.some((item) => item.id === workout.id)) {
+      toast.info("Workout is already in your plan.");
+      setAdded(true);
+      return;
     }
+
+    // Maximum 5 workouts
+    if (existingPlan.length >= 5) {
+      toast.error(
+        "Today's Plan can contain only 5 workouts."
+      );
+      return;
+    }
+
+    const updatedPlan = [...existingPlan, workout];
+
+    localStorage.setItem(
+      "fitlog-plan",
+      JSON.stringify(updatedPlan)
+    );
+
+    window.dispatchEvent(
+      new Event("fitlog-plan-updated")
+    );
 
     setAdded(true);
-    }
 
-    function saveWorkout() {
+    toast.success("Workout added to today's plan!");
+  }
+
+  function saveWorkout() {
     const existingSaved = JSON.parse(
-        localStorage.getItem("fitlog-saved") || "[]"
+      localStorage.getItem("fitlog-saved") || "[]"
     );
 
-    const alreadySaved = existingSaved.some(
-        (item) => item.id === workout.id
-    );
-
-    if (alreadySaved) {
-        toast.info("Workout is already saved.");
-    } else {
-        const updatedSaved = [...existingSaved, workout];
-
-        localStorage.setItem(
-        "fitlog-saved",
-        JSON.stringify(updatedSaved)
-        );
-
-        window.dispatchEvent(
-        new Event("fitlog-saved-updated")
-        );
-
-        toast.success("Workout saved for later!");
+    // Already saved check
+    if (existingSaved.some((item) => item.id === workout.id)) {
+      toast.info("Workout is already saved.");
+      setSaved(true);
+      return;
     }
+
+    const updatedSaved = [...existingSaved, workout];
+
+    localStorage.setItem(
+      "fitlog-saved",
+      JSON.stringify(updatedSaved)
+    );
+
+    window.dispatchEvent(
+      new Event("fitlog-saved-updated")
+    );
 
     setSaved(true);
-    }
 
-    return (
+    toast.success("Workout saved for later!");
+  }
+
+  return (
     <div className="mt-7 flex flex-wrap gap-3">
-        <button
+      {/* Add to Plan */}
+      <button
         onClick={addToPlan}
-        className="rounded-lg bg-[#ccff00] px-4 py-3 text-[10px] font-black uppercase text-black transition hover:bg-[#b8e600]"
-        >
+        className={`rounded-lg px-4 py-3 text-[10px] font-black uppercase transition ${
+          added
+            ? "bg-zinc-800 text-zinc-400"
+            : "bg-[#ccff00] text-black hover:bg-[#b8e600]"
+        }`}
+      >
         {added
-            ? "Added to today's plan"
-            : "Add to today's plan"}
-        </button>
+          ? "Added to today's plan"
+          : "Add to today's plan"}
+      </button>
 
-        <button
+      {/* Save */}
+      <button
         onClick={saveWorkout}
-        className="rounded-lg border border-zinc-700 bg-[#15181d] px-4 py-3 text-[10px] font-bold uppercase text-zinc-300 transition hover:border-zinc-500 hover:text-white"
-        >
+        className={`rounded-lg border px-4 py-3 text-[10px] font-bold uppercase transition ${
+          saved
+            ? "border-[#ccff00] text-[#ccff00]"
+            : "border-zinc-700 bg-[#15181d] text-zinc-300 hover:border-zinc-500 hover:text-white"
+        }`}
+      >
         {saved ? "Saved" : "Save for later"}
-        </button>
+      </button>
     </div>
-    );
+  );
 }
+
