@@ -5,11 +5,10 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 
 export default function Navbar() {
-    const [planCount, setPlanCount] = useState(0);
-    const [savedCount, setSavedCount] = useState(0);
+  const [planCount, setPlanCount] = useState(0);
+  const [savedCount, setSavedCount] = useState(0);
 
-    useEffect(() => {
-    function updateCounts() {
+  function loadCounts() {
     const plan = JSON.parse(
       localStorage.getItem("fitlog-plan") || "[]"
     );
@@ -22,83 +21,81 @@ export default function Navbar() {
     setSavedCount(saved.length);
   }
 
-  updateCounts();
+  useEffect(() => {
+    loadCounts();
 
-  window.addEventListener(
-    "fitlog-plan-updated",
-    updateCounts
-  );
+    window.addEventListener("fitlog-plan-updated", loadCounts);
+    window.addEventListener("fitlog-saved-updated", loadCounts);
 
-  window.addEventListener(
-    "fitlog-saved-updated",
-    updateCounts
-  );
+    return () => {
+      window.removeEventListener(
+        "fitlog-plan-updated",
+        loadCounts
+      );
 
-  return () => {
-    window.removeEventListener(
-      "fitlog-plan-updated",
-      updateCounts
-    );
+      window.removeEventListener(
+        "fitlog-saved-updated",
+        loadCounts
+      );
+    };
+  }, []);
 
-    window.removeEventListener(
-      "fitlog-saved-updated",
-      updateCounts
-    );
-  };
-}, []);
-
-    return (
+  return (
     <header className="border-b border-zinc-800 bg-[#0b0c10]">
-        <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4">
+      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4">
 
+        {/* Logo */}
         <Link href="/" className="flex items-center gap-2">
-            <Image
+          <Image
             src="/assets/logo.png"
             alt="FitLog logo"
             width={26}
             height={26}
-            />
+          />
 
-            <span className="text-lg font-black uppercase text-white">
+          <span className="text-lg font-black uppercase text-white">
             FitLog
-            </span>
+          </span>
         </Link>
 
+        {/* Navigation */}
         <nav className="hidden items-center gap-10 text-xs font-bold uppercase md:flex">
-            <Link
+          <Link
             href="/"
             className="text-[#ccff00] transition hover:text-white"
-            >
+          >
             Workouts
-            </Link>
+          </Link>
 
-            <Link
-            href="/my-plan"
+          <Link
+            href="/my-plan?tab=plan"
             className="text-zinc-500 transition hover:text-white"
-            >
+          >
             My Plan
-            </Link>
+          </Link>
         </nav>
 
+        {/* Counters */}
         <div className="flex items-center gap-2">
 
-            <Link
-            href="/my-plan"
-            className="rounded-full bg-[#ccff00] px-3 py-1.5 text-[10px] font-black uppercase text-black"
-            >
+          {/* Plan */}
+          <Link
+            href="/my-plan?tab=plan"
+            className="rounded-full bg-[#ccff00] px-3 py-1.5 text-[10px] font-black uppercase text-black transition hover:bg-white"
+          >
             Plan {planCount}
-            </Link>
+          </Link>
 
-            <Link
-            href="/saved"
-            className="rounded-full border border-zinc-700 px-3 py-1.5 text-[10px] font-black uppercase text-zinc-300"
-            >
+          {/* Saved */}
+          <Link
+            href="/my-plan?tab=saved"
+            className="rounded-full border border-zinc-700 px-3 py-1.5 text-[10px] font-black uppercase text-zinc-300 transition hover:border-[#ccff00] hover:text-[#ccff00]"
+          >
             Saved {savedCount}
-            </Link>
+          </Link>
 
         </div>
-
-        </div>
+      </div>
     </header>
-    );
+  );
 }
