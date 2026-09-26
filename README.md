@@ -6,7 +6,7 @@ I built this project using Next.js, React, and Tailwind CSS. The main goal of th
 
 ## Live Website
 
-
+https://my-nextjs-assignment-iota.vercel.app/
 
 ## Features
 
