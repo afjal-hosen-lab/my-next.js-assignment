@@ -1,9 +1,19 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 
 export default function Hero() {
+  function scrollToLibrary() {
+    const library = document.getElementById("library");
+
+    if (library) {
+      library.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }
+  }
+
   return (
     <section className="px-4 pt-8">
       <div
@@ -15,7 +25,7 @@ export default function Hero() {
           sm:min-h-105
         "
       >
-        {/* Content */}
+
         <div
           className="
             relative z-20 w-full
@@ -52,21 +62,23 @@ export default function Hero() {
             add up.
           </p>
 
-          <Link
-            href="#library"
+          <button
+            type="button"
+            onClick={scrollToLibrary}
             className="
               mt-7 inline-flex
               rounded-md bg-[#ccff00]
               px-5 py-3
               text-[10px] font-black uppercase tracking-wide text-black
-              transition hover:bg-white
+              transition
+              hover:bg-white
+              active:scale-95
             "
           >
             Browse workouts
-          </Link>
+          </button>
         </div>
 
-        {/* Mobile Banner */}
         <div
           className="
             absolute bottom-0 left-1/2
@@ -84,7 +96,6 @@ export default function Hero() {
           />
         </div>
 
-        {/* Desktop Banner */}
         <div
           className="
             absolute bottom-0 right-0
@@ -101,7 +112,6 @@ export default function Hero() {
           />
         </div>
 
-        {/* Mobile Gradient */}
         <div
           className="
             pointer-events-none absolute inset-0 z-10
